@@ -36,6 +36,7 @@ uvicorn src.main:asgi_app --host 0.0.0.0 --port 8000 --workers 4 --reload
 ## Links
 
 [github_author](https://github.com/Diegoomal)
+[github_src_code](https://github.com/Diegoomal/python-flask-chat)
 [github_template_1](https://github.com/Diegoomal/rag-module)
 [github_template_2](https://github.com/Diegoomal/PythonFlaskPlatformSetup)
 
