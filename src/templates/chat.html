@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChatGPT</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Chat with GPT</h1>
+        <div id="chat-box"></div>
+        <input type="text" id="message" placeholder="Type a message...">
+        <button id="send-button" onclick="sendMessage()">Send</button>
+    </div>
+</body>
+<script>
+    async function sendMessage() {
+        const message = document.getElementById('message').value;
+        const response = await fetch('/send-message', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ message })
+        });
+        const data = await response.json();
+        document.getElementById('chat-box').innerHTML += `<div class="message user"><strong>You:</strong> ${message}</div>`;
+        document.getElementById('chat-box').innerHTML += `<div class="message bot"><strong>ChatGPT:</strong> ${data.response}</div>`;
+        document.getElementById('message').value = '';
+        document.getElementById('chat-box').scrollTop = document.getElementById('chat-box').scrollHeight;
+    }
+</script>
+</html>
