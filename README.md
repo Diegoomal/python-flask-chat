@@ -1,11 +1,4 @@
-# Github AI Models
-
-## '.env' file
-
-```
-SECRET_KEY="super-secret-key"
-SQLALCHEMY_DATABASE_URI="sqlite:///db.sqlite"
-```
+# Flask-chat
 
 ## Manage Conda ENV
 
@@ -36,27 +29,6 @@ conda activate python-flask-chat-env
 
 ## To Execute
 
-### Config the DB
-```
-flask db init
-flask db migrate -m "initial migration"
-flask db upgrade
-flask db downgrade
-```
-
-<!-- 
-flask db upgrade OR downgrade
-path -> migrations/script.py.mako
--->
-
-<!-- 
-### Run Flask server
-```
-flask run
-```
--->
-
-### Run uvicorn server (prod)
 ```
 uvicorn src.main:asgi_app --host 0.0.0.0 --port 8000 --workers 4 --reload
 ```
