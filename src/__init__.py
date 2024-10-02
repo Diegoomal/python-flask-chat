@@ -13,3 +13,10 @@ def init_llm():
     illm: ILLM = LLMBuilder(llm_type='ollama', model_name='llama3', temperature=0)
     return illm.get_instance()
 illm = init_llm()
+
+from .core.agent import AgentBuilder
+def init_agent():
+    illm: ILLM = LLMBuilder(llm_type='ollama', model_name='llama3', temperature=0)
+    agent = AgentBuilder(agent_type='tool', illm=illm.get_instance())
+    return agent.get_agent()
+agent = init_agent()

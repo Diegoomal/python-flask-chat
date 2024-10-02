@@ -72,6 +72,10 @@ class Ollama(ILLM):
         if self.instance is None:
             self.build_instance()
         return self.instance
+    
+    # def invoke(self, prompt: str):
+    #     print('class: Ollama - method: invoke - prompt:', prompt)
+    #     return self.instance.call(prompt)
 
 class LLMBuilder:
 
