@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -27,6 +27,92 @@
         document.getElementById('chat-box').innerHTML += `<div class="message bot"><strong>ChatGPT:</strong> ${data.response}</div>`;
         document.getElementById('message').value = '';
         document.getElementById('chat-box').scrollTop = document.getElementById('chat-box').scrollHeight;
+    }
+</script>
+</html> -->
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChatGPT</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Chat with GPT</h1>
+        <div id="chat-box"></div>
+        <input type="text" id="message" placeholder="Type a message...">
+        <input type="file" id="file-upload" multiple style="display:none;" onchange="handleFiles()">
+        <div id="selected-files" style="margin-bottom: 10px;"></div>
+        <button id="upload-button" onclick="document.getElementById('file-upload').click()">+</button>
+        <button id="send-button" onclick="sendMessage()">Send</button>
+    </div>
+</body>
+<script>
+    let filesBase64 = [];
+
+    function handleFiles() {
+        const files = document.getElementById('file-upload').files;
+        const selectedFilesContainer = document.getElementById('selected-files');
+        selectedFilesContainer.innerHTML = '';
+        filesBase64 = [];
+
+        for (let i = 0; i < files.length; i++) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const fileData = { name: files[i].name, content: e.target.result };
+                filesBase64.push(fileData);
+
+                const fileElement = document.createElement('div');
+                fileElement.className = 'file-preview';
+                fileElement.innerHTML = `<span>${files[i].name}</span> <button onclick="removeFile(${i})">Remove</button>`;
+                selectedFilesContainer.appendChild(fileElement);
+            }
+            reader.readAsDataURL(files[i]);
+        }
+    }
+
+    function removeFile(index) {
+        filesBase64.splice(index, 1);
+        const selectedFilesContainer = document.getElementById('selected-files');
+        selectedFilesContainer.removeChild(selectedFilesContainer.childNodes[index]);
+    }
+
+    async function sendMessage() {
+
+        // bloqueia o botao
+        document.getElementById('send-button').disabled = true;
+        document.getElementById('send-button').style.backgroundColor = '#ff4500';
+        
+        // envia para o servidor
+        const message = document.getElementById('message').value;
+        const response = await fetch('/send-message', {
+            method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ message, files: filesBase64 })
+        });
+        const data = await response.json();
+
+        // incropora arquivo no chat
+        document.getElementById('chat-box').innerHTML += `<div class="message user"><strong>You:</strong> ${message}</div>`;
+        // filesBase64.forEach(file => { document.getElementById('chat-box').innerHTML += `<div class="message user"><strong>File:</strong> ${file.name}</div>`; });
+        filesBase64.forEach(file => { document.getElementById('chat-box').innerHTML += `<div class="message user"> <img style="width: 100px;" src="${file.content}"/> </div>`; });
+        
+        // trata a resposta do servidor
+        document.getElementById('chat-box').innerHTML += `<div class="message bot"><strong>ChatGPT:</strong> ${data.response}</div>`;
+        document.getElementById('message').value = '';
+        document.getElementById('chat-box').scrollTop = document.getElementById('chat-box').scrollHeight;
+
+        // Clear selected files after sending
+        filesBase64 = [];
+        document.getElementById('selected-files').innerHTML = '';
+
+        // desbloqueia o botao
+        document.getElementById('send-button').disabled = false;
+        document.getElementById('send-button').style.backgroundColor = '#1c86ee';
+
     }
 </script>
 </html>
