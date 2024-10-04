@@ -43,3 +43,10 @@ uvicorn src.main:asgi_app --host 0.0.0.0 --port 8000 --workers 4 --reload
 [generate-token](https://github.com/settings/tokens)
 [freecodecamp-tutorial](https://www.freecodecamp.org/news/how-to-authenticate-users-in-flask/)
 [digitalocean-migration-tutorial](https://www.digitalocean.com/community/tutorials/how-to-perform-flask-sqlalchemy-migrations-using-flask-migrate)
+
+
+
+
+sudo apt-get install poppler-utils
+
+sudo apt install tesseract-ocr

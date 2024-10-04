@@ -22,8 +22,14 @@ Flask-SQLAlchemy==3.1.1
 uvicorn==0.30.6
 asgiref==3.8.1
 
+
+pdf2image
+opencv-python
+pdfplumber
+pytesseract
+
 # AI
-# PyPDF2==3.0.1
+PyPDF2==3.0.1
 # chromadb==0.4.22
 # langgraph==0.0.51
 langchain==0.1.16
